@@ -1,0 +1,31 @@
+name: Deploy Qdrant to CML
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_reason:
+        description: "Reason for deployment"
+        required: false
+        default: "Deploy Qdrant vector database server"
+
+jobs:
+  deploy-qdrant:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Deploy Qdrant to Cloudera AI
+        env:
+          CML_HOST: ${{ secrets.CML_HOST }}
+          CML_API_KEY: ${{ secrets.CML_API_KEY }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python qdrant_cai_app/deploy_from_github.py
