@@ -133,6 +133,8 @@ The tool handles:
 2. Enter path: `/home/cdsw/rag_evaluation_workflow.zip`
 3. Click **Import**
 
+![Import Workflow Template](images/RAG_evaluation_workflow/import_workflow_template.png)
+
 ### Step 3.2: Create Workflow from Template
 
 Click the imported template to create a new workflow. The template includes 5 agents and 5 tasks.
