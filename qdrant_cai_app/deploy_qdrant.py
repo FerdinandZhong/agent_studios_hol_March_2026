@@ -50,7 +50,7 @@ def deploy_application(client: requests.Session, domain: str, project_id: str) -
         "kernel": "python3",
         "cpu": 2,
         "memory": 8,
-        "bypass_authentication": False,
+        "bypass_authentication": True,
         "runtime_identifier": RUNTIME_IMAGE,
         "environment": {"QDRANT_DATA_PATH": "/home/cdsw/qdrant_data"}
     }
