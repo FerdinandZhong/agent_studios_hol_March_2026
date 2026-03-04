@@ -385,9 +385,50 @@ A JSON evaluation report with the following structure:
 
 ---
 
-## Part 5: Configure RAG Studio Tool Parameters
+## Part 5: Generate CDP API Key
 
-### Step 5.1: Fill Tool Parameters
+Before configuring the RAG Studio tool, you need to generate a CDP API key for authentication. This key allows the workflow to securely access RAG Studio.
+
+### Step 5.1: Navigate to User Settings
+
+1. In CDP Management Console, click your username (bottom-left)
+2. Select **User Settings**
+
+![Go to User Settings](images/RAG_evaluation_workflow/go_to_user_settings.png)
+
+### Step 5.2: Create API Key
+
+1. In the User Settings page, find the **API Keys** section
+2. Click **Create API Key**
+
+![Click Create API Key](images/RAG_evaluation_workflow/click_create_api_key.png)
+
+### Step 5.3: Select Key Audiences
+
+1. In the Create API Key dialog, select **both audiences**:
+   - Control Plane API
+   - Workload API
+2. Click **Create**
+
+![Select Both Audiences](images/RAG_evaluation_workflow/click_both_audiences.png)
+
+> **Note:** Selecting both audiences ensures the key works for all RAG Studio operations.
+
+### Step 5.4: Copy the Generated Key
+
+1. **Important:** Copy the generated API key immediately
+2. Store it securely - you won't be able to see it again after closing this dialog
+3. You'll use this key as the `api_key` parameter in Part 6
+
+![Copy the Generated Key](images/RAG_evaluation_workflow/copy_the_generated_key.png)
+
+> **Warning:** The API key is only shown once. If you lose it, you'll need to create a new one.
+
+---
+
+## Part 6: Configure RAG Studio Tool Parameters
+
+### Step 6.1: Fill Tool Parameters
 
 1. Click **Configure** in the workflow editor
 2. Under **Tools and MCPs**, find `rag_studio_tool`
@@ -397,8 +438,8 @@ A JSON evaluation report with the following structure:
 
 | Parameter | Description |
 |-----------|-------------|
-| **base_url** | Your RAG Studio URL (e.g., `https://ragstudio-xxx.cloudera.site`) |
-| **api_key** | Your API key/Bearer token |
+| **base_url** | Your assigned RAG Studio URL (e.g., `https://ragstudio-xxx.cloudera.site`) |
+| **api_key** | Your CDP token |
 | **knowledge_base_name** | Name of your knowledge base |
 | **project_id** | Project ID (usually `1`) |
 | **inference_model** | LLM model name |
@@ -407,9 +448,9 @@ A JSON evaluation report with the following structure:
 
 ---
 
-## Part 6: Test the Workflow
+## Part 7: Test the Workflow
 
-### Step 6.1: Prepare Test Input
+### Step 7.1: Prepare Test Input
 
 Use the sample document below or your own content. Copy and paste into `{document_text}`:
 
@@ -467,19 +508,19 @@ Model Limitations: AI models often act as "black boxes" whose inner workings are
 
 </details>
 
-### Step 6.2: Run the Workflow
+### Step 7.2: Run the Workflow
 
 1. Click **Test** in the workflow editor
 2. Paste your document text into `{document_text}`
 3. Click **Run**
 
-### Step 6.3: Monitor Progress
+### Step 7.3: Monitor Progress
 
 Watch the workflow execute through each stage:
 
 ![Workflow Progress](images/RAG_evaluation_workflow/workflow_progress_rag_querying.png)
 
-### Step 6.4: Review Results
+### Step 7.4: Review Results
 
 The final evaluation report includes metrics for each Q&A pair:
 
@@ -487,7 +528,7 @@ The final evaluation report includes metrics for each Q&A pair:
 
 ---
 
-## Part 7: Understanding Evaluation Metrics
+## Part 8: Understanding Evaluation Metrics
 
 ### Retrieval Metric
 
