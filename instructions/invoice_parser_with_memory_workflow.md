@@ -378,6 +378,33 @@ pydantic>=2.0.0
 2. Close the workbench session
 3. The tool is now available in the Tools Catalog
 
+### Step 2.7: Register LightMem MCP Server
+
+Before importing the workflow, register the LightMem MCP server that provides memory capabilities:
+
+1. Go to **Tools Catalog** > **MCP Servers** > **Register**
+2. Paste the LightMem MCP server configuration:
+
+```json
+{
+  "mcpServers": {
+    "lightmem": {
+      "command": "uvx",
+      "args": ["--refresh", "--from", "git+https://github.com/FerdinandZhong/LightMem.git@mcp-light", "lightmem-mcp"],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "QDRANT_URL": "${QDRANT_URL}",
+        "LIGHTMEM_COLLECTION_NAME": "${LIGHTMEM_COLLECTION_NAME}"
+      }
+    }
+  }
+}
+```
+
+3. Click **Register** (use placeholder values - actual credentials are configured later)
+
+![Register LightMem MCP Server](images/invoice_parser_with_mem_workflow/register_lightmem_mcp_server.png)
+
 ---
 
 ## Part 3: Import the Workflow Template
@@ -411,32 +438,7 @@ After creating the workflow from the template, you need to connect the tools and
 
 ![Add PaddleOCR Tool to Agent](images/invoice_parser_with_mem_workflow/add_paddleocr_tool_to_first_agent.png)
 
-### Step 4.2: Register LightMem MCP Server
-
-1. Go to **Tools Catalog** > **MCP Servers** > **Register**
-2. Paste the LightMem MCP server configuration:
-
-```json
-{
-  "mcpServers": {
-    "lightmem": {
-      "command": "uvx",
-      "args": ["--refresh", "--from", "git+https://github.com/FerdinandZhong/LightMem.git@mcp-light", "lightmem-mcp"],
-      "env": {
-        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
-        "QDRANT_URL": "${QDRANT_URL}",
-        "LIGHTMEM_COLLECTION_NAME": "${LIGHTMEM_COLLECTION_NAME}"
-      }
-    }
-  }
-}
-```
-
-3. Click **Register**
-
-![Register LightMem MCP Server](images/invoice_parser_with_mem_workflow/register_lightmem_mcp_server.png)
-
-### Step 4.3: Add LightMem MCP to Agents
+### Step 4.2: Add LightMem MCP to Agents
 
 1. Edit the **Invoice OCR & Memory Agent**
 2. Click **+ Add MCP Server to Agent**
@@ -445,7 +447,7 @@ After creating the workflow from the template, you need to connect the tools and
 
 ![Add LightMem MCP to Agents](images/invoice_parser_with_mem_workflow/add_lightmem_mcp_to_agents.png)
 
-### Step 4.4: Configure PaddleOCR Tool Parameters
+### Step 4.3: Configure PaddleOCR Tool Parameters
 
 1. Click **Configure** in the workflow editor
 2. Under **Tools and MCPs**, find `PaddleOCR Tool`
