@@ -3,7 +3,9 @@
 Run Qdrant vector database server as a CAI Application.
 
 Downloads and runs Qdrant server on Linux, storing data persistently
-in /home/cdsw/qdrant_data.
+in /home/cdsw/qdrant_data_<app_suffix>.
+
+Each app_suffix gets its own isolated storage directory.
 """
 
 import os
@@ -15,7 +17,8 @@ from pathlib import Path
 
 
 QDRANT_VERSION = "v1.13.2"
-QDRANT_DATA_PATH = os.environ.get("QDRANT_DATA_PATH", "/home/cdsw/qdrant_data")
+APP_SUFFIX = os.environ.get("app_suffix", "default")
+QDRANT_DATA_PATH = os.environ.get("QDRANT_DATA_PATH", f"/home/cdsw/qdrant_data_{APP_SUFFIX}")
 QDRANT_BIN_PATH = "/home/cdsw/.qdrant/bin"
 QDRANT_PORT = "8100"
 QDRANT_HOST = "127.0.0.1"
