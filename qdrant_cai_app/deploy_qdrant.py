@@ -41,6 +41,7 @@ def deploy_application(client: requests.Session, domain: str, project_id: str) -
     app_name = get_app_name()
     subdomain = get_subdomain(project_id)
     apps_url = f"{domain}/api/v2/projects/{project_id}/applications"
+    suffix = os.environ.get("app_suffix", "default").strip()
 
     app_config = {
         "name": app_name,
@@ -52,7 +53,7 @@ def deploy_application(client: requests.Session, domain: str, project_id: str) -
         "memory": 8,
         "bypass_authentication": True,
         "runtime_identifier": RUNTIME_IMAGE,
-        "environment": {"QDRANT_DATA_PATH": "/home/cdsw/qdrant_data"}
+        "environment": {"app_suffix": suffix}
     }
 
     # Check for existing application
