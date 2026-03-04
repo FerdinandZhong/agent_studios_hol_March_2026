@@ -388,13 +388,91 @@ pydantic>=2.0.0
 2. Enter path: `/home/cdsw/invoice_parser_workflow_with_mem.zip`
 3. Click **Import**
 
+![Import Workflow Template](images/invoice_parser_with_mem_workflow/import_invoce_parser_workflow_with_mem_template.png)
+
 ### Step 3.2: Create Workflow from Template
 
 Click the imported template to create a new workflow.
 
+![Create Workflow from Template](images/invoice_parser_with_mem_workflow/create_workflow_from_template.png)
+
 ---
 
-## Part 4: Understand the Workflow Architecture
+## Part 4: Configure Agents and Tools
+
+After creating the workflow from the template, you need to connect the tools and MCP servers to the agents.
+
+### Step 4.1: Add PaddleOCR Tool to First Agent
+
+1. Click edit on the **Invoice OCR & Memory Agent**
+2. Click **+ Add Tool to Agent**
+3. Select the **PaddleOCR Tool** you created in Part 2
+4. Click **Add Tool**
+
+![Add PaddleOCR Tool to Agent](images/invoice_parser_with_mem_workflow/add_paddleocr_tool_to_first_agent.png)
+
+### Step 4.2: Register LightMem MCP Server
+
+1. Go to **Tools Catalog** > **MCP Servers** > **Register**
+2. Paste the LightMem MCP server configuration:
+
+```json
+{
+  "mcpServers": {
+    "lightmem": {
+      "command": "uvx",
+      "args": ["--refresh", "--from", "git+https://github.com/FerdinandZhong/LightMem.git@mcp-light", "lightmem-mcp"],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "QDRANT_URL": "${QDRANT_URL}",
+        "LIGHTMEM_COLLECTION_NAME": "${LIGHTMEM_COLLECTION_NAME}"
+      }
+    }
+  }
+}
+```
+
+3. Click **Register**
+
+![Register LightMem MCP Server](images/invoice_parser_with_mem_workflow/register_lightmem_mcp_server.png)
+
+### Step 4.3: Add LightMem MCP to Agents
+
+1. Edit the **Invoice OCR & Memory Agent**
+2. Click **+ Add MCP Server to Agent**
+3. Select **lightmem** and add the `add_memory` and `get_timestamp` functions
+4. Repeat for **Invoice Query Agent** with `retrieve_memory` function
+
+![Add LightMem MCP to Agents](images/invoice_parser_with_mem_workflow/add_lightmem_mcp_to_agents.png)
+
+### Step 4.4: Configure PaddleOCR Tool Parameters
+
+1. Click **Configure** in the workflow editor
+2. Under **Tools and MCPs**, find `PaddleOCR Tool`
+3. Enter the PaddleOCR connection details:
+
+![Configure PaddleOCR Parameters](images/invoice_parser_with_mem_workflow/fillup_required_parameters_for_paddleocr.png)
+
+| Parameter | Value |
+|-----------|-------|
+| **endpoint_url** | `https://ml-9132483a-8f3.gr-docpr.a465-9q4k.cloudera.site/namespaces/serving-default/endpoints/paddle-ocr/v1/infer` |
+| **api_key** | Provided JWT token (see below) |
+| **timeout_seconds** | `60` |
+
+<details>
+<summary>Click to expand api_key value</summary>
+
+```
+eyJqa3UiOiJodHRwczovL2dyLWRvY3Byby1hdy1kbC1nYXRld2F5LmdyLWRvY3ByLmE0NjUtOXE0ay5jbG91ZGVyYS5zaXRlL2dyLWRvY3Byby1hdy1kbC9ob21lcGFnZS9rbm94dG9rZW4vYXBpL3YyL2p3a3MuanNvbiIsImtpZCI6IjQzcF9vcS1NalozOEt4OEVKOWs3MGpZYk52cklYZmZSXzlvQ2hZWjFiZjAiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzcnZfbW9kZWwtcXVlcnktZ3ItZW52IiwiYXVkIjoiY2RwLXByb3h5LXRva2VuIiwiamt1IjoiaHR0cHM6Ly9nci1kb2Nwcm8tYXctZGwtZ2F0ZXdheS5nci1kb2Nwci5hNDY1LTlxNGsuY2xvdWRlcmEuc2l0ZS9nci1kb2Nwcm8tYXctZGwvaG9tZXBhZ2Uva25veHRva2VuL2FwaS92Mi9qd2tzLmpzb24iLCJraWQiOiI0M3Bfb3EtTWpaMzhLeDhFSjlrNzBqWWJOdnJJWGZmUl85b0NoWVoxYmYwIiwiaXNzIjoiS05PWFNTTyIsImV4cCI6MTc3Mjc3NDUzMywibWFuYWdlZC50b2tlbiI6InRydWUiLCJrbm94LmlkIjoiZGViMzFkOTEtYzUzZC00YzIxLWI4MmUtNzJlNWUwMDc5ZGMxIn0.b7rHxAZn_0BAdG3okdINUYkuMgtOjtkW1qPs3471Ly_325QdQj-Gc8vqJbCsdq0BCmQ_1pbOJTxmCnGD83hI04y3wT-vwnJev500v2sWWFNK7bFnu4Hcrv8uxclEspTfcBKOc2ZBtkdG1k2Wii8u6CB7WopYrYdXge7Hjz_plWfjT1UrCm0HuEf-B23PyIHqXnj9IXvO5TE2L91pUpTMRPrhMcNjLeNyjvnswlHH9cERkLD3360RCTjk_H28yzGu4jnKHjq4gVsDHexIyRix6LE4vYmLXbYIJGl80ltoL-QzCR8-RG-90eRNddK5WkRso-tZEnTRTApG7SWAUHGyuQ
+```
+
+</details>
+
+> **Note:** The PaddleOCR model is hosted through CAI Model Inference, providing a scalable OCR endpoint for extracting text from invoice images.
+
+---
+
+## Part 5: Understand the Workflow Architecture
 
 This is a **conversational hierarchical workflow** with a Manager Agent that routes requests to specialized worker agents.
 
@@ -456,11 +534,11 @@ The OCR agent uses PaddleOCR hosted via CAI Model Inference:
 
 ---
 
-## Part 5: Hands-On Experiment - Memory Comparison
+## Part 6: Hands-On Experiment - Memory Comparison
 
 This experiment demonstrates the difference between an empty memory store and one with existing data.
 
-### Step 5.1: Configure with Your New Qdrant (Empty Memory)
+### Step 6.1: Configure with Your New Qdrant (Empty Memory)
 
 1. Click **Configure** in the workflow editor
 2. Under **Tools and MCPs**, find the LightMem MCP server
@@ -474,7 +552,7 @@ This experiment demonstrates the difference between an empty memory store and on
 | `LIGHTMEM_COLLECTION_NAME` | `invoice_memory` |
 | `OPENAI_API_KEY` | Your OpenAI API key |
 
-### Step 5.2: Test Query (No Memory)
+### Step 6.2: Test Query (No Memory)
 
 1. Click **Test** in the workflow editor
 2. Ask a question about invoices:
@@ -487,7 +565,7 @@ This experiment demonstrates the difference between an empty memory store and on
 
 The agent cannot answer because your new Qdrant instance has no stored invoice data.
 
-### Step 5.3: Configure with Existing Qdrant (With Memory)
+### Step 6.3: Configure with Existing Qdrant (With Memory)
 
 Now switch to a Qdrant instance that already has invoice data stored:
 
@@ -500,7 +578,7 @@ Now switch to a Qdrant instance that already has invoice data stored:
 |-----------|-------|
 | `QDRANT_URL` | `<instructor_provided_url>` |
 
-### Step 5.4: Test Query (With Memory)
+### Step 6.4: Test Query (With Memory)
 
 1. Click **Test** again
 2. Ask the same question:
@@ -515,7 +593,7 @@ The agent now retrieves stored invoice data and provides an accurate answer!
 
 ---
 
-## Part 6: Understanding the Agents
+## Part 7: Understanding the Agents
 
 ### Manager Agent: Invoice Assistant Manager
 
