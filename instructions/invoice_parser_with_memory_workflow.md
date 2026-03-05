@@ -552,7 +552,7 @@ This experiment demonstrates the difference between an empty memory store and on
 |-----------|-------|
 | `QDRANT_URL` | `https://<domain>/qdrant-<your_suffix>-<project_id>` |
 | `LIGHTMEM_COLLECTION_NAME` | `invoice_memory` |
-| `OPENAI_API_KEY` | Your OpenAI API key |
+| `OPENAI_API_KEY` | <your-openai-api-key> |
 
 ### Step 6.2: Test Query (No Memory)
 
