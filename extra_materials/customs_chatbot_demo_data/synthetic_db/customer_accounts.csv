@@ -1,0 +1,26 @@
+customer_id,company_name,contact_name,email,phone,account_type,registration_date,account_status,preferred_language,notes
+CUST-0001,ABC Trading UK Ltd,James Carter,j.carter@abctradinguk.co.uk,+44-1394-614200,IMPORTER,2019-03-15,ACTIVE,EN,Regular importer of Bangladesh textiles. High shipment frequency.
+CUST-0002,Marks & Spencer Sourcing Ltd,Claire Thompson,c.thompson@marksandspencer.com,+44-20-7935-4422,IMPORTER,2005-06-01,ACTIVE,EN,Major retail sourcing entity. Pre-approved AEO status.
+CUST-0003,Denim Discount UK Ltd,Barry Nolan,b.nolan@denimdiscountuk.co.uk,+44-161-872-4400,IMPORTER,2021-09-10,ACTIVE,EN,New importer. Under enhanced monitoring.
+CUST-0004,UK Electronics Ltd,Sarah Okafor,s.okafor@ukelectronics.co.uk,+44-20-8800-1200,IMPORTER,2015-04-20,ACTIVE,EN,Electronics importer. HMRC deferred duty account holder.
+CUST-0005,Rotterdam Fashion BV,Pieter van der Berg,p.vanderberg@rotterdamfashion.nl,+31-10-4552-200,IMPORTER,2018-11-03,ACTIVE,NL,EU-based importer. Transit declarations via UK port.
+CUST-0006,Hamburg Mode AG,Gertrude Müller,g.muller@hamburgmode.de,+49-40-3300-8800,IMPORTER,2017-07-22,ACTIVE,DE,German fashion importer.
+CUST-0007,Primark Sourcing Ltd,David Walsh,d.walsh@primark.com,+353-1-404-2233,IMPORTER,2008-02-14,ACTIVE,EN,High-volume fast-fashion importer. AEO certified.
+CUST-0008,Sports Direct International,Kevin Hunt,k.hunt@sportsdirect.com,+44-1902-494494,IMPORTER,2011-08-30,ACTIVE,EN,Sporting goods and apparel importer.
+CUST-0009,Tesco Sourcing Division,Linda Marsh,l.marsh@tesco.com,+44-1707-600100,IMPORTER,2003-01-10,ACTIVE,EN,Major grocery and general merchandise importer. AEO.
+CUST-0010,Next UK Sourcing,Philip Stone,p.stone@next.co.uk,+44-1162-844844,IMPORTER,2007-05-18,ACTIVE,EN,Fashion retail sourcing. Regular shipments from Bangladesh and Vietnam.
+CUST-0011,EuroCloth Ltd,Hans de Vries,h.devries@eurocloth.nl,+31-10-4123-300,IMPORTER,2020-04-05,ACTIVE,NL,Mid-size EU distributor. Some irregular declaration patterns noted.
+CUST-0012,Carphone Warehouse Distribution,Anne Briggs,a.briggs@dixons.co.uk,+44-1442-350000,IMPORTER,2010-09-12,ACTIVE,EN,Consumer electronics. Pre-lodgement declarations.
+CUST-0013,B&Q Sourcing Ltd,Robert Green,r.green@kingfisher.com,+44-1256-823000,IMPORTER,2012-03-28,ACTIVE,EN,DIY and home improvement goods. Regular furniture imports from Vietnam.
+CUST-0014,John Lewis Partnership,Catherine Ford,c.ford@johnlewis.co.uk,+44-1865-242000,IMPORTER,2006-11-15,ACTIVE,EN,Department store group. AEO certified.
+CUST-0015,UK Gadgets Distribution,Martin Fowler,m.fowler@ukgadgets.co.uk,+44-20-7946-0000,IMPORTER,2022-01-20,ACTIVE,EN,New electronics distributor. No AEO status.
+CUST-0016,Yorkshire Fashion Ltd,Janet Price,j.price@yorkshirefashion.co.uk,+44-113-2005-100,IMPORTER,2016-06-07,ACTIVE,EN,Regional fashion wholesaler.
+CUST-0017,Dunelm Sourcing,Peter Hargreaves,p.hargreaves@dunelm.com,+44-116-2644-100,IMPORTER,2013-10-01,ACTIVE,EN,Homewares importer. Regular Pakistan textile imports.
+CUST-0018,ASOS Sourcing Ltd,Fiona Blake,f.blake@asos.com,+44-20-7756-1000,IMPORTER,2014-07-14,ACTIVE,EN,Online fashion retailer. High volume, diverse origins.
+CUST-0019,Harveys Furniture,Douglas Keane,d.keane@harveysfurniture.co.uk,+44-1279-408000,IMPORTER,2009-04-22,ACTIVE,EN,Furniture retailer. China and Malaysia sources.
+CUST-0020,Boohoo Group Sourcing,Rachel Carter,r.carter@boohoo.com,+44-161-233-2050,IMPORTER,2015-12-01,ACTIVE,EN,Online fast-fashion. Bangladesh and India primary origins.
+CUST-0021,GoodBroker Freight Ltd,,info@goodbrokerfreight.co.uk,+44-1394-612000,BROKER,2010-05-10,ACTIVE,EN,Licensed customs broker. HMRC Agent No: GB-CA-20100088.
+CUST-0022,FastClear Logistics Ltd,David Morrison,d.morrison@fastclearlogistics.co.uk,+44-1394-677800,BROKER,2019-03-01,UNDER_REVIEW,EN,Licensed customs broker. HMRC Agent No: GB-CA-20190042. Subject of compliance review.
+CUST-0023,DB Schenker UK,Helen Ross,h.ross@dbschenker.com,+44-1932-834000,BROKER,2001-01-01,ACTIVE,EN,Global freight forwarder.
+CUST-0024,DHL Trade Customs,Paul Watkins,p.watkins@dhl.com,+44-1753-897000,BROKER,2000-06-01,ACTIVE,EN,Global express and trade lane operator.
+CUST-0025,Panalpina UK,Sophie Nash,s.nash@panalpina.com,+44-1375-857000,BROKER,2004-03-15,ACTIVE,EN,International freight forwarder.

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trade Fraud Detection — Agentic AI Pipeline</title>
+  <style>
+    /* ── Base ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f5f6fa;
+      color: #1a1d2e;
+      padding: 32px 24px 48px;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1d2e;
+      letter-spacing: -0.3px;
+    }
+    .header p {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    /* ── Input pill ── */
+    .input-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .input-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1.5px solid #d1d5db;
+      border-radius: 40px;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .input-pill .icon {
+      width: 32px; height: 32px;
+      background: #e0e7ff;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+
+    /* ── Pipeline grid ── */
+    .pipeline {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    /* ── Connector arrow ── */
+    .arrow {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      padding-top: 64px; /* align with card mid-point */
+    }
+    .arrow svg { display: block; }
+
+    /* ── Stage card ── */
+    .stage {
+      flex: 1;
+      min-width: 180px;
+      max-width: 220px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1.5px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stage-header {
+      padding: 12px 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stage-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+    .stage-title {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .stage-role {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 1px;
+    }
+
+    /* ── Agent colours ── */
+    .s1 { background: #dbeafe; border-bottom: 2px solid #3b82f6; }
+    .s1 .stage-badge { color: #1d4ed8; }
+    .s1 .stage-title { color: #1e3a8a; }
+
+    .s2 { background: #fef3c7; border-bottom: 2px solid #f59e0b; }
+    .s2 .stage-badge { color: #b45309; }
+    .s2 .stage-title { color: #78350f; }
+
+    .s3 { background: #dcfce7; border-bottom: 2px solid #22c55e; }
+    .s3 .stage-badge { color: #15803d; }
+    .s3 .stage-title { color: #14532d; }
+
+    .s4 { background: #ede9fe; border-bottom: 2px solid #8b5cf6; }
+    .s4 .stage-badge { color: #6d28d9; }
+    .s4 .stage-title { color: #4c1d95; }
+
+    .s5 { background: #fce7f3; border-bottom: 2px solid #ec4899; }
+    .s5 .stage-badge { color: #be185d; }
+    .s5 .stage-title { color: #831843; }
+
+    .s6 { background: #fee2e2; border-bottom: 2px solid #ef4444; }
+    .s6 .stage-badge { color: #b91c1c; }
+    .s6 .stage-title { color: #7f1d1d; }
+
+    /* ── Card body ── */
+    .stage-body {
+      padding: 10px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #9ca3af;
+      margin-bottom: 3px;
+    }
+
+    .action-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .action-list li {
+      font-size: 12px;
+      color: #374151;
+      padding-left: 12px;
+      position: relative;
+      line-height: 1.4;
+    }
+    .action-list li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #9ca3af;
+      font-weight: 700;
+    }
+
+    /* ── Tool chip ── */
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #374151;
+      white-space: nowrap;
+    }
+    .tool-chip .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-blue   { background: #3b82f6; }
+    .dot-amber  { background: #f59e0b; }
+    .dot-green  { background: #22c55e; }
+    .dot-purple { background: #8b5cf6; }
+    .dot-pink   { background: #ec4899; }
+    .dot-red    { background: #ef4444; }
+
+    .tools-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    /* ── Output box ── */
+    .output-box {
+      background: #f9fafb;
+      border: 1px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 7px 10px;
+    }
+    .output-box .output-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .output-box .output-val {
+      font-size: 11.5px;
+      color: #1f2937;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .output-box .output-sub {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    /* ── Confidence banner ── */
+    .confidence-banner {
+      margin: 20px 0 28px;
+      background: #fff7ed;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .confidence-banner .banner-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .confidence-banner .banner-text h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 3px;
+    }
+    .confidence-banner .banner-text p {
+      font-size: 12px;
+      color: #78350f;
+      line-height: 1.5;
+    }
+
+    /* ── Score formula ── */
+    .formula-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 28px;
+    }
+    .formula-card {
+      background: #1a1d2e;
+      color: #f9fafb;
+      border-radius: 12px;
+      padding: 16px 28px;
+      text-align: center;
+      max-width: 640px;
+      width: 100%;
+    }
+    .formula-card .fc-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    .formula-card .fc-formula {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f9fafb;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .risk-tiers {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .tier {
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+    .tier-low    { background: #d1fae5; color: #065f46; }
+    .tier-med    { background: #fef3c7; color: #92400e; }
+    .tier-high   { background: #fee2e2; color: #991b1b; }
+    .tier-crit   { background: #7f1d1d; color: #fee2e2; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .pipeline { flex-direction: column; align-items: stretch; }
+      .arrow { width: auto; padding-top: 0; padding: 6px 0; transform: rotate(90deg); }
+      .stage { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Six-Stage Agentic AI Pipeline — Trade Fraud Detection</h1>
+    <p>From scanned invoice to evidenced investigation brief — in seconds</p>
+  </div>
+
+  <!-- Input pill -->
+  <div class="input-row">
+    <div class="input-pill">
+      <div class="icon">📄</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#374151;">Input</div>
+        <div style="font-size:11px;color:#6b7280;margin-top:1px;">Scanned invoice image or PDF</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confidence propagation banner -->
+  <div class="confidence-banner">
+    <div class="banner-icon">⚡</div>
+    <div class="banner-text">
+      <h3>Confidence Propagation — runs through every stage</h3>
+      <p>Agent 1 assigns a per-field OCR confidence score (0–1). Fields below <strong>0.80</strong> are added to a
+      <code>low_confidence_fields[]</code> list that travels with the data. Every downstream agent appends
+      <em>[LOW CONFIDENCE — verify manually]</em> to any finding that relies on a flagged field.
+      Uncertainty is never silently absorbed — it surfaces explicitly in the final investigation brief.</p>
+    </div>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="pipeline">
+
+    <!-- ── Agent 1 ── -->
+    <div class="stage">
+      <div class="stage-header s1">
+        <div class="stage-badge">Agent 1</div>
+        <div class="stage-title">Document Analyst</div>
+        <div class="stage-role">OCR Extraction &amp; Field Mapping</div>
+      </div>
+      <div class="stage-body">
+        <div>
+          <div class="section-label">Actions</div>
+          <ul class="action-list">
+            <li>Run AI vision OCR on uploaded document</li>
+            <li>Extract per-line text with confidence scores</li>
+            <li>Map 12 canonical trade fields (HS code, prices, entities, route)</li>
+            <li>Flag fields below 0.80 confidence threshold</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Tool</div>
+          <div class="tools-row">
+            <span class="tool-chip"><span class="dot dot-blue"></span>AI Vision OCR</span>
+          </div>
+        </div>
+        <div class="output-box">
+          <div class="output-label">Output</div>
+          <div class="output-val">Structured fields JSON</div>
+          <div class="output-sub">+ low_confidence_fields[ ] list propagated to all downstream agents</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- arrow -->
+    <div class="arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ── Agent 2 ── -->
+    <div class="stage">
+      <div class="stage-header s2">
+        <div class="stage-badge">Agent 2</div>
+        <div class="stage-title">Price Validator</div>
+        <div class="stage-role">Price Anomaly Detection</div>
+      </div>
+      <div class="stage-body">
+        <div>
+          <div class="section-label">Actions</div>
+          <ul class="action-list">
+            <li>Query price benchmark for HS code + origin country</li>
+            <li>Pull 100 recent comparable transactions</li>
+            <li>Retrieve entity transaction baseline (shipper/consignee)</li>
+            <li>Compute z-score and normalised anomaly score (0–1)</li>
+            <li>Flag UNDER_INVOICING if z-score &lt; −2.0 or price &lt; 30% benchmark</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Tool</div>
+          <div class="tools-row">
+            <span class="tool-chip"><span class="dot dot-amber"></span>SQL — Trade History DB</span>
+          </div>
+        </div>
+        <div class="output-box">
+          <div class="output-label">Output</div>
+          <div class="output-val">Price anomaly score · UNDER_INVOICING flag</div>
+          <div class="output-sub">Weight: 25% of composite score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- arrow -->
+    <div class="arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ── Agent 3 ── -->
+    <div class="stage">
+      <div class="stage-header s3">
+        <div class="stage-badge">Agent 3</div>
+        <div class="stage-title">Compliance Auditor</div>
+        <div class="stage-role">Regulatory Breach Detection</div>
+      </div>
+      <div class="stage-body">
+        <div>
+          <div class="section-label">Actions</div>
+          <ul class="action-list">
+            <li>Query import requirements, quotas, and restrictions for HS code + route</li>
+            <li>Verify Rules of Origin and preferential duty eligibility</li>
+            <li>Assess transshipment and origin-washing risk</li>
+            <li>Cross-check required certificates against extracted document fields</li>
+            <li>Flag missing certificates (e.g. Form A for GSP rates)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Tool</div>
+          <div class="tools-row">
+            <span class="tool-chip"><span class="dot dot-green"></span>RAG — Compliance KB</span>
+          </div>
+        </div>
+        <div class="output-box">
+          <div class="output-label">Output</div>
+          <div class="output-val">Breach list · compliance risk score</div>
+          <div class="output-sub">Weight: 20% of composite score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- arrow -->
+    <div class="arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ── Agent 4 ── -->
+    <div class="stage">
+      <div class="stage-header s4">
+        <div class="stage-badge">Agent 4</div>
+        <div class="stage-title">Intelligence Analyst</div>
+        <div class="stage-role">Entity &amp; Sanctions Screening</div>
+      </div>
+      <div class="stage-body">
+        <div>
+          <div class="section-label">Actions</div>
+          <ul class="action-list">
+            <li>Semantic search: shipper, consignee, broker vs. fraud bulletins</li>
+            <li>Sanctions and watchlist screening</li>
+            <li>LLM alias/transliteration assessment for near-matches</li>
+            <li>Screen trade route vs. known fraud corridors for declared HS code</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Tool</div>
+          <div class="tools-row">
+            <span class="tool-chip"><span class="dot dot-purple"></span>RAG — Intelligence KB</span>
+          </div>
+        </div>
+        <div class="output-box">
+          <div class="output-label">Output</div>
+          <div class="output-val">Entity match results · intelligence score</div>
+          <div class="output-sub">Weight: 30% of composite score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- arrow -->
+    <div class="arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ── Agent 5 ── -->
+    <div class="stage">
+      <div class="stage-header s5">
+        <div class="stage-badge">Agent 5</div>
+        <div class="stage-title">Network Analyst</div>
+        <div class="stage-role">Collusion &amp; Scheme Detection</div>
+      </div>
+      <div class="stage-body">
+        <div>
+          <div class="section-label">Actions</div>
+          <ul class="action-list">
+            <li>Inspector–broker co-occurrence: flag pairs with &gt;10 shared clearances</li>
+            <li>Trading network clustering: map price patterns across connected entities</li>
+            <li>Split-shipment detection: multiple low-value declarations within 90 days from same pair</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Tool</div>
+          <div class="tools-row">
+            <span class="tool-chip"><span class="dot dot-pink"></span>SQL — Trade History DB</span>
+          </div>
+        </div>
+        <div class="output-box">
+          <div class="output-label">Output</div>
+          <div class="output-val">Collusion indicators · collusion risk score</div>
+          <div class="output-sub">Weight: 25% of composite score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- arrow -->
+    <div class="arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ── Agent 6 ── -->
+    <div class="stage">
+      <div class="stage-header s6">
+        <div class="stage-badge">Agent 6</div>
+        <div class="stage-title">Risk Officer</div>
+        <div class="stage-role">Score Aggregation &amp; Report</div>
+      </div>
+      <div class="stage-body">
+        <div>
+          <div class="section-label">Actions</div>
+          <ul class="action-list">
+            <li>Aggregate scores from all four specialist agents</li>
+            <li>Compute weighted composite risk score</li>
+            <li>Classify risk tier (LOW / MEDIUM / HIGH / CRITICAL)</li>
+            <li>Assemble evidence chain and per-module findings</li>
+            <li>Add mandatory human-review block for low-confidence findings in HIGH/CRITICAL cases</li>
+            <li>Generate signed PDF investigation brief</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Tool</div>
+          <div class="tools-row">
+            <span class="tool-chip"><span class="dot dot-red"></span>PDF Generator</span>
+          </div>
+        </div>
+        <div class="output-box">
+          <div class="output-label">Output</div>
+          <div class="output-val">Risk tier · PDF investigation brief</div>
+          <div class="output-sub">Case summary · score table · evidence chain · extraction quality · approval block</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pipeline -->
+
+  <!-- Composite score formula -->
+  <div class="formula-row">
+    <div class="formula-card">
+      <div class="fc-label">Composite Risk Score Formula</div>
+      <div class="fc-formula">
+        Score = (Price Anomaly × 25%) + (Compliance × 20%)<br>
+              + (Intelligence × 30%) + (Collusion × 25%)
+      </div>
+      <div class="risk-tiers">
+        <span class="tier tier-low">LOW &nbsp;0.0–0.30</span>
+        <span class="tier tier-med">MEDIUM &nbsp;0.30–0.60</span>
+        <span class="tier tier-high">HIGH &nbsp;0.60–0.80</span>
+        <span class="tier tier-crit">CRITICAL &nbsp;0.80–1.00</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

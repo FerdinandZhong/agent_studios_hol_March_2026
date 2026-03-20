@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commercial Invoice — INV-2024-00123</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      color: #1a1a1a;
+      background: #f0f0f0;
+      padding: 24px;
+    }
+    .page {
+      background: #fff;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 36px 44px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid #1a3a6b;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+    .company-block h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a3a6b;
+      letter-spacing: 0.5px;
+    }
+    .company-block p {
+      font-size: 10px;
+      color: #555;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+    .doc-title-block {
+      text-align: right;
+    }
+    .doc-title-block h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a3a6b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .doc-title-block .inv-number {
+      font-size: 13px;
+      font-weight: 700;
+      color: #cc2222;
+      margin-top: 4px;
+    }
+    .doc-title-block .meta {
+      font-size: 10px;
+      color: #555;
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    /* Parties */
+    .parties {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+    .party-box {
+      flex: 1;
+      border: 1px solid #d0d8e8;
+      border-radius: 4px;
+      padding: 10px 12px;
+      background: #f7f9fc;
+    }
+    .party-box .label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #1a3a6b;
+      border-bottom: 1px solid #c8d4e8;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+    .party-box p {
+      line-height: 1.6;
+      color: #333;
+    }
+    .party-box strong {
+      font-size: 11px;
+      color: #1a1a1a;
+    }
+
+    /* Shipment details */
+    .shipment-details {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      border: 1px solid #d0d8e8;
+      border-radius: 4px;
+      padding: 10px 12px;
+      background: #f7f9fc;
+      margin-bottom: 16px;
+    }
+    .detail-item .detail-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #1a3a6b;
+    }
+    .detail-item .detail-value {
+      font-size: 11px;
+      color: #1a1a1a;
+      margin-top: 2px;
+    }
+
+    /* Goods table */
+    table.goods {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: 10.5px;
+    }
+    table.goods thead tr {
+      background: #1a3a6b;
+      color: #fff;
+    }
+    table.goods thead th {
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    table.goods tbody tr:nth-child(even) {
+      background: #f4f7fb;
+    }
+    table.goods tbody td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #e0e8f0;
+      vertical-align: top;
+      color: #222;
+    }
+    table.goods tfoot tr {
+      background: #eef2f8;
+    }
+    table.goods tfoot td {
+      padding: 7px 10px;
+      font-weight: 700;
+      border-top: 2px solid #1a3a6b;
+    }
+
+    /* Totals */
+    .totals-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 18px;
+    }
+    .totals-table {
+      width: 260px;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+    .totals-table td {
+      padding: 4px 8px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .totals-table td:last-child { text-align: right; }
+    .totals-table .grand-total td {
+      font-weight: 700;
+      font-size: 12px;
+      color: #1a3a6b;
+      background: #eef2f8;
+      border-top: 2px solid #1a3a6b;
+    }
+
+    /* Certificates & declarations */
+    .certs-section {
+      border: 1px solid #d0d8e8;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      background: #fffbf0;
+    }
+    .certs-section .section-title {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #8b5a00;
+      margin-bottom: 6px;
+    }
+    .cert-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 3px;
+    }
+    .cert-badge {
+      font-size: 9px;
+      font-weight: 700;
+      background: #f0e0a0;
+      border: 1px solid #c8a000;
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: #6b4000;
+      white-space: nowrap;
+    }
+    .cert-badge.missing {
+      background: #ffe0e0;
+      border-color: #cc4444;
+      color: #991111;
+    }
+    .cert-text { font-size: 10px; color: #555; }
+
+    /* Broker */
+    .broker-section {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+    .broker-box {
+      flex: 1;
+      border: 1px solid #d0d8e8;
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+    .broker-box .label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #1a3a6b;
+      margin-bottom: 4px;
+    }
+
+    /* Signature */
+    .signature-section {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #ccc;
+      padding-top: 14px;
+      margin-top: 8px;
+    }
+    .sig-block { width: 200px; }
+    .sig-block .sig-line {
+      border-bottom: 1px solid #333;
+      height: 30px;
+      margin-bottom: 4px;
+    }
+    .sig-block p { font-size: 9px; color: #555; }
+
+    /* Declaration */
+    .declaration-text {
+      font-size: 9px;
+      color: #666;
+      border-top: 1px dashed #ccc;
+      padding-top: 10px;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; border: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div class="company-block">
+      <h1>TEXTILE HOUSE LTD</h1>
+      <p>
+        House 12, Block C, CEPZ Industrial Area<br />
+        Chittagong — 4223, Bangladesh<br />
+        ETIN: 123456789012 &nbsp;|&nbsp; BIN: 000123456-0101<br />
+        Tel: +880-31-2855123 &nbsp;|&nbsp; export@textilehouseltd.com<br />
+        Bank: Pubali Bank Ltd, Foreign Exchange Branch, Chittagong<br />
+        SWIFT: PUBABDDH &nbsp;|&nbsp; A/C: 3412-0011-228876
+      </p>
+    </div>
+    <div class="doc-title-block">
+      <h2>Commercial Invoice</h2>
+      <div class="inv-number">INV-2024-00123</div>
+      <div class="meta">
+        Invoice Date: <strong>14 March 2024</strong><br />
+        L/C No.: LC-PB-2024-00771<br />
+        Contract Ref.: THL-ABCUK-2024-03<br />
+        Document Type: <strong>INVOICE</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PARTIES ===== -->
+  <div class="parties">
+    <div class="party-box">
+      <div class="label">Shipper / Exporter</div>
+      <p>
+        <strong>Textile House Ltd</strong><br />
+        House 12, Block C, CEPZ Industrial Area<br />
+        Chittagong — 4223, Bangladesh<br />
+        Contact: Md. Rafiqul Islam<br />
+        Tel: +880-31-2855123
+      </p>
+    </div>
+    <div class="party-box">
+      <div class="label">Consignee / Importer</div>
+      <p>
+        <strong>ABC Trading UK Ltd</strong><br />
+        Unit 7, Dock Road Industrial Estate<br />
+        Felixstowe, Suffolk IP11 3SY, United Kingdom<br />
+        Company No.: 09876543<br />
+        VAT No.: GB 123 4567 89<br />
+        Contact: Mr. James Carter
+      </p>
+    </div>
+    <div class="party-box">
+      <div class="label">Notify Party</div>
+      <p>
+        <strong>ABC Trading UK Ltd</strong><br />
+        (Same as Consignee)<br />
+        Tel: +44-1394-614200<br />
+        Email: imports@abctradinguk.co.uk
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== SHIPMENT DETAILS ===== -->
+  <div class="shipment-details">
+    <div class="detail-item">
+      <div class="detail-label">Port of Loading</div>
+      <div class="detail-value">Chittagong, Bangladesh</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Port of Discharge</div>
+      <div class="detail-value">Felixstowe, United Kingdom</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Country of Origin</div>
+      <div class="detail-value">Bangladesh</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Final Destination</div>
+      <div class="detail-value">United Kingdom</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Vessel / Flight</div>
+      <div class="detail-value">MV EVER GIFTED</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Voyage No.</div>
+      <div class="detail-value">0142E</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">B/L No.</div>
+      <div class="detail-value">EVERGE142BDK009</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">ETD / ETA</div>
+      <div class="detail-value">18 Mar 2024 / 09 Apr 2024</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Incoterms</div>
+      <div class="detail-value">CIF Felixstowe</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Payment Terms</div>
+      <div class="detail-value">Irrevocable L/C at Sight</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Currency</div>
+      <div class="detail-value">USD</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">No. of Packages</div>
+      <div class="detail-value">200 cartons</div>
+    </div>
+  </div>
+
+  <!-- ===== GOODS TABLE ===== -->
+  <table class="goods">
+    <thead>
+      <tr>
+        <th style="width:4%">#</th>
+        <th style="width:26%">Description of Goods</th>
+        <th style="width:10%">HS Code</th>
+        <th style="width:8%">Country of Origin</th>
+        <th style="width:10%">Quantity</th>
+        <th style="width:9%">Net Weight</th>
+        <th style="width:9%">Gross Weight</th>
+        <th style="width:10%">Unit Price (USD)</th>
+        <th style="width:14%">Total Amount (USD)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>
+          Men's Cotton T-Shirts, 100% combed cotton,
+          single jersey, 160 g/m², crew-neck, short sleeve.
+          Sizes: S / M / L / XL. Assorted colours.
+          (Style No. THL-CT-2024-M01)
+        </td>
+        <td><strong>6109.10</strong></td>
+        <td>Bangladesh</td>
+        <td>10,000 pcs<br />(50 pcs/ctn × 200 ctns)</td>
+        <td>1,600 kg</td>
+        <td>2,000 kg</td>
+        <td style="color:#cc2222; font-weight:700">USD 0.80</td>
+        <td><strong>USD 8,000.00</strong></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>
+          Freight charge (CIF component) — Chittagong to Felixstowe
+        </td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>USD 480.00</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>
+          Marine insurance premium (CIF component)
+        </td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>USD 22.00</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="8" style="text-align:right">FOB Value:</td>
+        <td>USD 8,000.00</td>
+      </tr>
+      <tr>
+        <td colspan="8" style="text-align:right">Freight + Insurance (CIF add):</td>
+        <td>USD 502.00</td>
+      </tr>
+      <tr>
+        <td colspan="8" style="text-align:right; font-size:12px; color:#1a3a6b">TOTAL CIF VALUE:</td>
+        <td style="font-size:12px; color:#cc2222">USD 8,502.00</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- ===== TOTALS ===== -->
+  <div class="totals-section">
+    <table class="totals-table">
+      <tr><td>Sub-Total (Goods):</td><td>USD 8,000.00</td></tr>
+      <tr><td>Freight (CIF):</td><td>USD 480.00</td></tr>
+      <tr><td>Insurance (CIF):</td><td>USD 22.00</td></tr>
+      <tr><td>Trade Discount:</td><td>USD 0.00</td></tr>
+      <tr class="grand-total">
+        <td>TOTAL CIF INVOICE VALUE:</td>
+        <td>USD 8,502.00</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ===== CUSTOMS BROKER ===== -->
+  <div class="broker-section">
+    <div class="broker-box">
+      <div class="label">Customs Broker / Freight Forwarder</div>
+      <p>
+        <strong>FastClear Logistics Ltd</strong><br />
+        Dock Gate 5, Trinity Terminal, Felixstowe IP11 3TE, UK<br />
+        HMRC Approved Customs Agent No.: GB-CA-20190042<br />
+        Tel: +44-1394-677800 &nbsp;|&nbsp; clearance@fastclearlogistics.co.uk
+      </p>
+    </div>
+    <div class="broker-box">
+      <div class="label">Exporting Freight Agent (Origin)</div>
+      <p>
+        <strong>Bangladesh Express Freight Services</strong><br />
+        Port Area, Chittagong — 4100, Bangladesh<br />
+        BAFFA Lic. No.: 2018-BD-FF-1144<br />
+        Tel: +880-31-2875900
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== CERTIFICATES ===== -->
+  <div class="certs-section">
+    <div class="section-title">Accompanying Documents &amp; Certificates</div>
+    <div class="cert-row">
+      <span class="cert-badge">SUBMITTED</span>
+      <span class="cert-text">Bill of Lading No. EVERGE142BDK009 (Original 3/3)</span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge">SUBMITTED</span>
+      <span class="cert-text">Packing List (PL-2024-00123)</span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge">SUBMITTED</span>
+      <span class="cert-text">Export Health Certificate — Bangladesh Textile Export Board (Ref: TEB-2024-1192)</span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge missing">NOT SUBMITTED</span>
+      <span class="cert-text">Form A — Generalised System of Preferences (GSP) Certificate of Origin <em>(required for preferential UK tariff rate under UK-GSP)</em></span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge missing">NOT SUBMITTED</span>
+      <span class="cert-text">Rules of Origin Value-Added Declaration (local content threshold: ≥ 50% of ex-works price)</span>
+    </div>
+  </div>
+
+  <!-- ===== DECLARATIONS ===== -->
+  <div class="declaration-text">
+    <strong>Exporter's Declaration:</strong> We hereby certify that the information furnished in this commercial invoice is true and correct and that the goods described above are of <strong>Bangladesh</strong> origin. The goods comply with the requirements of the importing country and all applicable export regulations of Bangladesh. This invoice has been prepared in accordance with the International Chamber of Commerce rules.
+    <br /><br />
+    <strong>Note on Valuation:</strong> Prices stated herein represent the actual transaction value of the goods sold. Unit price of USD 0.80 per piece reflects the agreed contract price between the parties (Contract ref. THL-ABCUK-2024-03) and includes the cost of manufacturing, packing, and factory-gate delivery.
+  </div>
+
+  <!-- ===== SIGNATURE ===== -->
+  <div class="signature-section">
+    <div class="sig-block">
+      <div class="sig-line"></div>
+      <p>Authorised Signatory<br /><strong>Md. Rafiqul Islam</strong><br />Export Manager, Textile House Ltd<br />Date: 14 March 2024</p>
+    </div>
+    <div style="text-align:center; font-size:9px; color:#888; max-width:260px">
+      <p>Original — 1 of 3</p>
+      <p style="margin-top:4px">This document was generated for demonstration purposes as part of the CAI Studio Trade Fraud Detection Workflow. All entities, values, and document numbers are synthetic.</p>
+    </div>
+    <div class="sig-block" style="text-align:right">
+      <div class="sig-line"></div>
+      <p>Received By (Consignee)<br /><strong>ABC Trading UK Ltd</strong><br />Date: ___________________</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
