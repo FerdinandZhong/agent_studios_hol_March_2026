@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commercial Invoice — SUSP-2024-CLASS-001 [NEGATIVE / HS MISCLASSIFICATION]</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      color: #1a1a1a;
+      background: #f0f0f0;
+      padding: 24px;
+    }
+    .page {
+      background: #fff;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 36px 44px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid #7a3a00;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+    .company-block h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #7a3a00;
+      letter-spacing: 0.5px;
+    }
+    .company-block p { font-size: 10px; color: #555; line-height: 1.5; margin-top: 4px; }
+    .doc-title-block { text-align: right; }
+    .doc-title-block h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #7a3a00;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .doc-title-block .inv-number {
+      font-size: 13px;
+      font-weight: 700;
+      color: #cc3300;
+      margin-top: 4px;
+    }
+    .doc-title-block .meta { font-size: 10px; color: #555; margin-top: 3px; line-height: 1.5; }
+    .parties { display: flex; gap: 20px; margin-bottom: 16px; }
+    .party-box {
+      flex: 1;
+      border: 1px solid #e8d0c0;
+      border-radius: 4px;
+      padding: 10px 12px;
+      background: #fdf8f4;
+    }
+    .party-box .label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #7a3a00;
+      border-bottom: 1px solid #e0c8b0;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+    .party-box p { line-height: 1.6; color: #333; }
+    .party-box strong { font-size: 11px; color: #1a1a1a; }
+    .shipment-details {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      border: 1px solid #e8d0c0;
+      border-radius: 4px;
+      padding: 10px 12px;
+      background: #fdf8f4;
+      margin-bottom: 16px;
+    }
+    .detail-item .detail-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #7a3a00;
+    }
+    .detail-item .detail-value { font-size: 11px; color: #1a1a1a; margin-top: 2px; }
+    table.goods { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10.5px; }
+    table.goods thead tr { background: #7a3a00; color: #fff; }
+    table.goods thead th {
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    table.goods tbody tr:nth-child(even) { background: #fdf5ee; }
+    table.goods tbody td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #f0e0d0;
+      vertical-align: top;
+      color: #222;
+    }
+    table.goods tfoot tr { background: #f5ede0; }
+    table.goods tfoot td {
+      padding: 7px 10px;
+      font-weight: 700;
+      border-top: 2px solid #7a3a00;
+    }
+    .totals-section { display: flex; justify-content: flex-end; margin-bottom: 18px; }
+    .totals-table { width: 260px; border-collapse: collapse; font-size: 11px; }
+    .totals-table td { padding: 4px 8px; border-bottom: 1px solid #e0e0e0; }
+    .totals-table td:last-child { text-align: right; }
+    .totals-table .grand-total td {
+      font-weight: 700;
+      font-size: 12px;
+      color: #7a3a00;
+      background: #f5ede0;
+      border-top: 2px solid #7a3a00;
+    }
+    .fraud-annotation {
+      border: 2px dashed #cc3300;
+      border-radius: 4px;
+      padding: 8px 14px;
+      margin-bottom: 16px;
+      background: #fff8f5;
+      font-size: 9.5px;
+      color: #880000;
+    }
+    .fraud-annotation strong { font-size: 10px; }
+    .fraud-annotation ul { margin-left: 16px; margin-top: 4px; }
+    .fraud-annotation li { margin-bottom: 2px; }
+    .certs-section {
+      border: 1px solid #e8d0c0;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      background: #fffbf8;
+    }
+    .certs-section .section-title {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #7a3a00;
+      margin-bottom: 6px;
+    }
+    .cert-row { display: flex; gap: 8px; align-items: center; margin-bottom: 3px; }
+    .cert-badge {
+      font-size: 9px;
+      font-weight: 700;
+      background: #f0e0a0;
+      border: 1px solid #c8a000;
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: #6b4000;
+      white-space: nowrap;
+    }
+    .cert-badge.missing {
+      background: #ffe0e0;
+      border-color: #cc4444;
+      color: #991111;
+    }
+    .cert-text { font-size: 10px; color: #555; }
+    .broker-section { display: flex; gap: 20px; margin-bottom: 16px; }
+    .broker-box {
+      flex: 1;
+      border: 1px solid #e8d0c0;
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+    .broker-box .label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #7a3a00;
+      margin-bottom: 4px;
+    }
+    .signature-section {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #ccc;
+      padding-top: 14px;
+      margin-top: 8px;
+    }
+    .sig-block { width: 200px; }
+    .sig-block .sig-line { border-bottom: 1px solid #333; height: 30px; margin-bottom: 4px; }
+    .sig-block p { font-size: 9px; color: #555; }
+    .declaration-text {
+      font-size: 9px;
+      color: #666;
+      border-top: 1px dashed #ccc;
+      padding-top: 10px;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+    .hs-highlight {
+      background: #ffe8c0;
+      border: 1px solid #cc8800;
+      border-radius: 3px;
+      padding: 1px 4px;
+      font-weight: 700;
+      color: #7a4400;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; border: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div class="company-block">
+      <h1>DENIM PRO BD LTD</h1>
+      <p>
+        Plot 44, DEPZ Industrial Zone, Savar<br />
+        Dhaka — 1340, Bangladesh<br />
+        ETIN: 556677889900 &nbsp;|&nbsp; BIN: 000556677-0202<br />
+        Tel: +880-2-7745 3300 &nbsp;|&nbsp; exports@denimprobd.com<br />
+        Bank: Sonali Bank Ltd, DEPZ Branch, Savar<br />
+        SWIFT: SONABBDH &nbsp;|&nbsp; A/C: 5502-0088-119944
+      </p>
+    </div>
+    <div class="doc-title-block">
+      <h2>Commercial Invoice</h2>
+      <div class="inv-number">SUSP-2024-CLASS-001</div>
+      <div class="meta">
+        Invoice Date: <strong>28 January 2024</strong><br />
+        L/C No.: LC-SB-2024-00112<br />
+        Contract Ref.: DPB-DDU-2024-01<br />
+        Document Type: <strong>INVOICE</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FRAUD SIGNAL ANNOTATION ===== -->
+  <div class="fraud-annotation">
+    <strong>&#9888; FRAUD SIGNAL ANNOTATION (for demo purposes — not present on a real fraudulent invoice):</strong>
+    <ul>
+      <li><strong>HS Misclassification:</strong> Goods are standard fashion denim jeans (correct HS: <strong>6203.42</strong>, 12% duty) declared as "industrial protective workwear" under <strong>6113.00</strong> (coated fabric garments, 6.5% duty) — saving 5.5 percentage points per CIF value</li>
+      <li><strong>Description contradictions:</strong> "5-pocket denim design", "stonewash finish", "logo rivet" are fashion characteristics inconsistent with industrial/protective workwear; no protective coating material is specified</li>
+      <li><strong>Price anomaly:</strong> USD 2.80/pc is 56% below the 6203.42 benchmark (USD 6.40/pc) — additional under-invoicing layer on top of misclassification</li>
+      <li><strong>Missing BGMEA registration:</strong> Denim Pro BD is not in BGMEA/BKMEA public registry — origin credibility issue</li>
+      <li><strong>Broker:</strong> FastClear Logistics — same broker linked to collusion in OLAF-FB-2023-TEX-047</li>
+    </ul>
+    <strong>Expected composite risk score: ~0.73 → HIGH → Physical inspection + supervisor review</strong>
+  </div>
+
+  <!-- ===== PARTIES ===== -->
+  <div class="parties">
+    <div class="party-box">
+      <div class="label">Shipper / Exporter</div>
+      <p>
+        <strong>Denim Pro BD Ltd</strong><br />
+        Plot 44, DEPZ Industrial Zone, Savar<br />
+        Dhaka — 1340, Bangladesh<br />
+        Contact: Mr. Shahidul Alam<br />
+        Tel: +880-2-7745 3300
+      </p>
+    </div>
+    <div class="party-box">
+      <div class="label">Consignee / Importer</div>
+      <p>
+        <strong>Denim Discount UK Ltd</strong><br />
+        Unit 12, Trafford Park Industrial Estate<br />
+        Manchester M17 1PQ, United Kingdom<br />
+        Company No.: 11223344<br />
+        VAT No.: GB 445 6789 02<br />
+        Contact: Mr. Barry Nolan
+      </p>
+    </div>
+    <div class="party-box">
+      <div class="label">Notify Party</div>
+      <p>
+        <strong>Denim Discount UK Ltd</strong><br />
+        (Same as Consignee)<br />
+        Tel: +44-161-872 4400<br />
+        Email: imports@denimdiscountuk.co.uk
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== SHIPMENT DETAILS ===== -->
+  <div class="shipment-details">
+    <div class="detail-item">
+      <div class="detail-label">Port of Loading</div>
+      <div class="detail-value">Chittagong, Bangladesh</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Port of Discharge</div>
+      <div class="detail-value">Felixstowe, United Kingdom</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Country of Origin</div>
+      <div class="detail-value">Bangladesh</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Final Destination</div>
+      <div class="detail-value">United Kingdom</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Vessel / Flight</div>
+      <div class="detail-value">MV COSCO SHIPPING TAURUS</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Voyage No.</div>
+      <div class="detail-value">0088E</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">B/L No.</div>
+      <div class="detail-value">COSC0088BDK044</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">ETD / ETA</div>
+      <div class="detail-value">02 Feb 2024 / 24 Feb 2024</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Incoterms</div>
+      <div class="detail-value">CIF Felixstowe</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Payment Terms</div>
+      <div class="detail-value">Irrevocable L/C at Sight</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Currency</div>
+      <div class="detail-value">USD</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">No. of Packages</div>
+      <div class="detail-value">200 cartons</div>
+    </div>
+  </div>
+
+  <!-- ===== GOODS TABLE ===== -->
+  <table class="goods">
+    <thead>
+      <tr>
+        <th style="width:4%">#</th>
+        <th style="width:28%">Description of Goods</th>
+        <th style="width:10%">HS Code (Declared)</th>
+        <th style="width:8%">Country of Origin</th>
+        <th style="width:10%">Quantity</th>
+        <th style="width:8%">Net Weight</th>
+        <th style="width:8%">Gross Weight</th>
+        <th style="width:10%">Unit Price (USD)</th>
+        <th style="width:14%">Total Amount (USD)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>
+          <span style="font-style:italic; color:#7a3a00">Men's Industrial Protective Workwear
+          Trousers,</span> cotton construction,
+          5-pocket denim design, stonewash finish,
+          logo rivet at pocket corners, 320 g/m² fabric weight.
+          Sizes: 30"–38" waist. Colour: Indigo Blue / Black.
+          Style Ref.: DPB-IW-2024-TR01
+        </td>
+        <td>
+          <span class="hs-highlight">6113.00</span>
+          <br /><span style="font-size:9px; color:#888">(declared)</span>
+        </td>
+        <td>Bangladesh</td>
+        <td>10,000 pcs<br />(50 pcs/ctn × 200 ctns)</td>
+        <td>3,200 kg</td>
+        <td>3,800 kg</td>
+        <td style="color:#cc3300; font-weight:700">USD 2.80</td>
+        <td><strong>USD 28,000.00</strong></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Freight charge (CIF component)</td>
+        <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+        <td>USD 620.00</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Marine insurance premium (CIF component)</td>
+        <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+        <td>USD 36.00</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="8" style="text-align:right">FOB Value:</td>
+        <td>USD 28,000.00</td>
+      </tr>
+      <tr>
+        <td colspan="8" style="text-align:right">Freight + Insurance (CIF add):</td>
+        <td>USD 656.00</td>
+      </tr>
+      <tr>
+        <td colspan="8" style="text-align:right; font-size:12px; color:#7a3a00">TOTAL CIF VALUE:</td>
+        <td style="font-size:12px; color:#cc3300">USD 28,656.00</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- ===== TOTALS ===== -->
+  <div class="totals-section">
+    <table class="totals-table">
+      <tr><td>Sub-Total (Goods):</td><td>USD 28,000.00</td></tr>
+      <tr><td>Freight (CIF):</td><td>USD 620.00</td></tr>
+      <tr><td>Insurance (CIF):</td><td>USD 36.00</td></tr>
+      <tr><td>Trade Discount:</td><td>USD 0.00</td></tr>
+      <tr class="grand-total">
+        <td>TOTAL CIF INVOICE VALUE:</td>
+        <td>USD 28,656.00</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ===== CUSTOMS BROKER ===== -->
+  <div class="broker-section">
+    <div class="broker-box">
+      <div class="label">Customs Broker / Freight Forwarder (UK)</div>
+      <p>
+        <strong>FastClear Logistics Ltd</strong><br />
+        Dock Gate 5, Trinity Terminal, Felixstowe IP11 3TE, UK<br />
+        HMRC Approved Customs Agent No.: GB-CA-20190042<br />
+        Tel: +44-1394-677800 &nbsp;|&nbsp; clearance@fastclearlogistics.co.uk
+      </p>
+    </div>
+    <div class="broker-box">
+      <div class="label">Freight Agent (Origin)</div>
+      <p>
+        <strong>Bangladesh Cargo Services Ltd</strong><br />
+        Agrabad C/A, Chittagong — 4100, Bangladesh<br />
+        BAFFA Lic. No.: 2020-BD-FF-2201<br />
+        Tel: +880-31-2890011
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== CERTIFICATES ===== -->
+  <div class="certs-section">
+    <div class="section-title">Accompanying Documents &amp; Certificates</div>
+    <div class="cert-row">
+      <span class="cert-badge">SUBMITTED</span>
+      <span class="cert-text">Bill of Lading No. COSC0088BDK044 (Original 3/3)</span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge">SUBMITTED</span>
+      <span class="cert-text">Packing List (PL-SUSP-2024-CLASS-001)</span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge missing">NOT SUBMITTED</span>
+      <span class="cert-text">Form A / REX Statement on Origin — <em>not required by declarant for HS 6113 at MFN rate, but required if preferential rate claimed</em></span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge missing">NOT SUBMITTED</span>
+      <span class="cert-text">EN ISO 11612 Protective Clothing Certificate — <em>required to substantiate classification as industrial protective workwear under HS 6113</em></span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge missing">NOT SUBMITTED</span>
+      <span class="cert-text">BGMEA / BKMEA Factory Registration — <em>Denim Pro BD Ltd not found in BGMEA/BKMEA public registry as of verification date</em></span>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge">SUBMITTED</span>
+      <span class="cert-text">Export Health Certificate — Bangladesh Textile Export Board (Ref: TEB-2024-0289)</span>
+    </div>
+  </div>
+
+  <!-- ===== DECLARATION ===== -->
+  <div class="declaration-text">
+    <strong>Exporter's Declaration:</strong> We hereby certify that the goods described above are men's industrial protective workwear trousers of Bangladesh origin, correctly classified under HS heading <strong>6113.00</strong> (garments made of coated/impregnated fabric providing industrial protection). The unit price of USD 2.80 per piece represents the agreed contract price for this industrial garment category. All goods meet the applicable Bangladesh export requirements.
+    <br /><br />
+    <span style="color:#7a3a00"><strong>Note for fraud detection workflow:</strong> The product description contains fashion-specific terms ("5-pocket denim design", "stonewash finish", "logo rivet") that are incompatible with the industrial/protective workwear classification claimed under 6113.00. The correct HS heading is <strong>6203.42</strong> (men's cotton trousers, 12% UK duty). The misclassification to 6113.00 (6.5% duty) saves USD 1,578.08 in duty on this shipment (5.5% × CIF USD 28,656). The declared unit price USD 2.80 is also 56% below the 6203.42 benchmark of USD 6.40, constituting a secondary under-invoicing fraud layer.</span>
+  </div>
+
+  <!-- ===== SIGNATURE ===== -->
+  <div class="signature-section">
+    <div class="sig-block">
+      <div class="sig-line"></div>
+      <p>Authorised Signatory<br /><strong>Mr. Shahidul Alam</strong><br />Export Manager, Denim Pro BD Ltd<br />Date: 28 January 2024</p>
+    </div>
+    <div style="text-align:center; font-size:9px; color:#888; max-width:260px">
+      <p>Original — 1 of 3</p>
+      <p style="margin-top:4px; color:#cc3300; font-weight:700">&#9888; NEGATIVE SAMPLE #2<br />Fraud type: HS misclassification + under-invoicing<br />Expected outcome: HIGH risk → Physical inspection</p>
+      <p style="margin-top:4px">Synthetic document for CAI Studio Trade Fraud Detection Workflow demo. All entities and values are fictional.</p>
+    </div>
+    <div class="sig-block" style="text-align:right">
+      <div class="sig-line"></div>
+      <p>Received By (Consignee)<br /><strong>Denim Discount UK Ltd</strong><br />Date: ___________________</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

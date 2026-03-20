@@ -1,0 +1,215 @@
+# =============================================================================
+# Trade Fraud Detection Workflow — Configuration Parameters
+# =============================================================================
+# Fill in every placeholder value before running the workflow.
+# Placeholders are marked with angle brackets: <DESCRIPTION>
+#
+# DO NOT commit this file to version control once real credentials are filled in.
+#
+# ⚠ "Required Tool Parameters Not Configured" warning — tools to fix:
+#
+#   Tool                  | Required UserParameters
+#   ----------------------|---------------------------------------------------
+#   agentic_kie_tool      | paddle_url, rolm_url, jwt_token,
+#                         | llm_base_url, llm_api_key  (section 3)
+#   rag_studio_tool x2    | base_url, api_key, knowledge_base_name,
+#                         | project_id  (section 5 — deploy twice, one per KB)
+#   search_internet       | serper_api_key  (section 6)
+#
+#   Tools with NO required UserParameters (will not trigger the warning):
+#   pdf_tool, write_to_shared_pdf, csv_reader
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# 1. LLM Settings  (Agent Studio → Settings → LLM Configuration)
+# -----------------------------------------------------------------------------
+llm:
+  provider: openai                        # openai | azure_openai | other
+  api_key: <YOUR_OPENAI_API_KEY>
+  model: <gpt-4o OR gpt-4o-mini>          # used by all 6 agents
+  # Optional — only needed if routing through a proxy or Azure endpoint
+  base_url: <YOUR_OPENAI_BASE_URL>        # e.g. https://api.openai.com/v1
+  temperature: 0                          # keep at 0 for deterministic outputs
+  max_tokens: 4096
+
+
+# -----------------------------------------------------------------------------
+# 2. MCP Server — iceberg-mcp-server
+#    Provides execute_query and get_schema tools against the Impala/Iceberg CDW.
+#    Add this block under MCP Servers in Agent Studio.
+# -----------------------------------------------------------------------------
+mcp_servers:
+  iceberg-mcp-server:
+    host: qzhong-datahub-gateway.qzhong-1.a465-9q4k.cloudera.site
+    port: 443
+    database: trade_fraud_db
+    username: qzhong
+    password: <YOUR_CDP_PASSWORD>
+    use_ssl: true
+    auth_mechanism: LDAP
+    http_path: qzhong-datahub/cdp-proxy-api/impala
+
+
+# -----------------------------------------------------------------------------
+# 3. Tool: agentic_kie_tool
+#    Multi-agent OCR pipeline (PaddleOCR + RolmOCR + Master LLM agent).
+#    Parameters split into UserParameters (set once at deployment) and
+#    ToolParameters (set per invocation in the task description).
+# -----------------------------------------------------------------------------
+tools:
+  agentic_kie_tool:
+
+    # -- UserParameters: set once when deploying the tool in Agent Studio --
+    user_parameters:
+      paddle_url: https://ml-9132483a-8f3.gr-docpr.a465-9q4k.cloudera.site/namespaces/serving-default/endpoints/paddle-ocr/v1/infer    # e.g. https://.../paddle-ocr/v1/infer
+      rolm_url: https://ml-9132483a-8f3.gr-docpr.a465-9q4k.cloudera.site/namespaces/serving-default/endpoints/rolmocr/openai/v1      # OpenAI-compatible endpoint, e.g. https://.../v1
+      jwt_token: <YOUR_OCR_API_JWT_TOKEN>           # Bearer token for both Paddle and RolmOCR APIs
+      rolm_model: reducto/RolmOCR                   # default — change only if using a different model
+      llm_model: <gpt-4o OR gpt-4.1-mini>           # Master agent LLM (OpenAI-compatible)
+      llm_base_url: https://api.openai.com/v1          # e.g. https://api.openai.com/v1
+      llm_api_key: <YOUR_OPENAI_API_KEY>            # same key as llm.api_key above
+      timeout_seconds: 300                          # max runtime per image; increase for large documents
+
+    # -- ToolParameters: passed per invocation in the task description --
+    tool_parameters:
+      action: extract                               # only supported action
+      open_schema: true                             # true = dynamic field discovery (recommended for trade docs)
+      output_mode: deterministic                    # deterministic = discovered_fields/canonical/extras
+      # image_source: set at runtime from workflow {input} — not a static param
+      # target_fields: only needed for closed-schema mode (open_schema: false)
+      #   e.g. "invoice_number,shipper,consignee,hs_code,unit_price,quantity,total_value,origin,incoterms"
+      # paddle_threshold: 0.80  # default confidence threshold for closed-schema mode
+
+
+  
+  # ---------------------------------------------------------------------------
+  # 5. Tool: rag_studio_tool  ⚠ REQUIRED UserParameters — triggers warning
+  #    knowledge_base_name is deployment-time, so deploy this tool TWICE in
+  #    Agent Studio: once pointing at each KB. Name them differently so agents
+  #    can distinguish them (e.g. "rag_compliance" vs "rag_intelligence").
+  # ---------------------------------------------------------------------------
+  rag_studio_tool:
+
+    # -- Deployment 1: Trade Compliance KB (used by Agent 3) --
+    compliance_kb_instance:
+      user_parameters:
+        base_url: https://ragstudio-l2gf6g.ml-e54c7b5e-fcc.qzhong-1.a465-9q4k.cloudera.site/          # e.g. https://ragstudio-xxx.cloudera.site
+        api_key: a3f45ee866366ef7fe8e2075cba2b2a834959c215a1f2b437b6402c4f18c5d9b.6f77735d58da787068e60ee97f2f56cbd4d329281865cfe7450b8e086ffb3158
+        knowledge_base_name: Trade Compliance   # exact name as created in RAG Studio
+        project_id: 1       # default: 1
+        inference_model: gpt-4o         # optional — leave blank to use RAG Studio default
+        response_chunks: 3                                 # number of chunks returned per query
+        timeout_seconds: 60
+      # Documents to ingest into this KB (from project):
+      #   extra_materials/trade_fraud_demo_data/task3_task4_knowledge_base/compliance_kb/
+      #   - hs_chapter_61_textile_rules.md
+      #   - rules_of_origin_bangladesh_uk.md
+      #   - gsp_form_a_requirements.md
+      #   - high_risk_transshipment_hubs.md
+      # Embedding model: text-embedding-3-small (set when creating KB in RAG Studio)
+      # Chunk size: 512 tokens, overlap: 50 tokens
+
+    # -- Deployment 2: Intelligence Reports KB (used by Agent 4) --
+    intelligence_kb_instance:
+      user_parameters:
+        base_url: https://ragstudio-l2gf6g.ml-e54c7b5e-fcc.qzhong-1.a465-9q4k.cloudera.site/          # e.g. https://ragstudio-xxx.cloudera.site
+        api_key: a3f45ee866366ef7fe8e2075cba2b2a834959c215a1f2b437b6402c4f18c5d9b.6f77735d58da787068e60ee97f2f56cbd4d329281865cfe7450b8e086ffb3158
+        knowledge_base_name: Intelligence Reports   # exact name as created in RAG Studio
+        project_id: 1       # default: 1
+        inference_model: gpt-4o         # optional — leave blank to use RAG Studio default
+        response_chunks: 3                                 # number of chunks returned per query
+        timeout_seconds: 60
+      # Documents to ingest into this KB (from project):
+      #   extra_materials/trade_fraud_demo_data/task3_task4_knowledge_base/intelligence_kb/
+      #   - olaf_bulletin_2023_textile_under_invoicing.md
+      #   - seizure_records_2022_2024.md
+      #   - sanctions_entities_excerpt.md
+      # Embedding model: text-embedding-3-small (set when creating KB in RAG Studio)
+
+    # -- ToolParameters (same for both deployments, passed at runtime) --
+    tool_parameters:
+      action: query                      # query | list_knowledge_bases | upload_document
+      # query: set at runtime by the agent — not a static param
+
+
+  # ---------------------------------------------------------------------------
+  # 6. Tool: search_internet  ⚠ REQUIRED UserParameters — triggers warning
+  #    Uses Serper API (Google Search). Get a key at serper.dev.
+  # ---------------------------------------------------------------------------
+  search_internet:
+    user_parameters:
+      serper_api_key: <YOUR_SERPER_API_KEY>   # get free key at https://serper.dev
+    # query is set at runtime by Agent 4 — not a static param
+
+
+  # ---------------------------------------------------------------------------
+  # 7. Tool: write_to_shared_pdf  — no UserParameters required (pass)
+  #    output_file and markdown_content are set at runtime by Agent 6.
+  # ---------------------------------------------------------------------------
+  write_to_shared_pdf:
+    tool_parameters:
+      output_file: fraud_investigation_brief.pdf
+      # markdown_content: built at runtime by Agent 6
+
+
+  # ---------------------------------------------------------------------------
+  # 8. Tool: pdf_tool  — no UserParameters required (pass)
+  # ---------------------------------------------------------------------------
+  pdf_tool:
+    tool_parameters:
+      action: readpdf
+      # pdf: set at runtime from workflow input
+
+
+  # ---------------------------------------------------------------------------
+  # 9. Tool: csv_reader  — no UserParameters required (pass)
+  # ---------------------------------------------------------------------------
+  csv_reader:
+    tool_parameters:
+      # filepath: set at runtime by the agent
+
+
+# -----------------------------------------------------------------------------
+# 8. CDW Database Tables  (used by iceberg-mcp-server → execute_query)
+# -----------------------------------------------------------------------------
+database:
+  name: trade_fraud_db                    # matches mcp_servers.iceberg-mcp-server.database
+  tables:
+    price_benchmarks: trade_price_benchmarks
+    declarations:     trade_declarations
+    clearances:       customs_clearances
+  # Data loading scripts:
+  #   extra_materials/trade_fraud_demo_data/task2_price_benchmarks/create_impala_table.py
+  #   extra_materials/trade_fraud_demo_data/task2_price_benchmarks/load_data_to_impala.py
+
+
+# -----------------------------------------------------------------------------
+# 9. Workflow Runtime Input
+# -----------------------------------------------------------------------------
+workflow_input:
+  # The {input} placeholder in task descriptions is set to one of these at runtime.
+  # For a scanned invoice image:
+  image_source: <PATH_OR_URL_TO_TRADE_DOCUMENT_IMAGE>
+  # For a text-based PDF:
+  pdf_path: <PATH_TO_TRADE_DOCUMENT_PDF>
+  # Sample files available under:
+  #   extra_materials/trade_fraud_demo_data/task1_invoice_sample/
+  #   - invoice_INV-2024-00123.html   (negative — under-invoicing)
+  #   - invoice_SUSP-2024-CLASS-001.html (negative — HS code misclassification)
+  #   - invoice_LEGIT-2024-5007.html  (positive — legitimate shipment)
+
+
+# -----------------------------------------------------------------------------
+# 10. Composite Risk Score Weights  (Task 6 — adjustable after tuning)
+# -----------------------------------------------------------------------------
+scoring:
+  price_anomaly_weight:    0.25   # Agent 2 output weight
+  compliance_risk_weight:  0.20   # Agent 3 output weight
+  intelligence_weight:     0.30   # Agent 4 output weight — highest: named-entity matches are strong signals
+  collusion_risk_weight:   0.25   # Agent 5 output weight
+  # Thresholds
+  low_threshold:    0.3           # 0.0 – 0.3  → LOW    → auto-release
+  medium_threshold: 0.6           # 0.3 – 0.6  → MEDIUM → enhanced doc check
+  high_threshold:   0.8           # 0.6 – 0.8  → HIGH   → physical inspection + supervisor review
+                                  # 0.8 – 1.0  → CRITICAL → hold + refer to fraud unit

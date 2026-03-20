@@ -1,0 +1,31 @@
+hs_code,hs_description,origin_country,avg_unit_price,price_std_dev,min_price,max_price,sample_count,currency,price_unit,last_updated
+6109.10,Men's/boys' cotton T-shirts,Bangladesh,3.20,0.65,1.80,5.50,1842,USD,per piece,2024-01-31
+6109.10,Men's/boys' cotton T-shirts,China,2.95,0.72,1.50,5.20,3214,USD,per piece,2024-01-31
+6109.10,Men's/boys' cotton T-shirts,Vietnam,3.05,0.58,1.70,5.00,1127,USD,per piece,2024-01-31
+6109.10,Men's/boys' cotton T-shirts,Cambodia,2.80,0.60,1.60,4.80,443,USD,per piece,2024-01-31
+6109.10,Men's/boys' cotton T-shirts,India,3.10,0.70,1.75,5.40,982,USD,per piece,2024-01-31
+6109.10,Men's/boys' cotton T-shirts,Pakistan,2.85,0.55,1.65,4.90,678,USD,per piece,2024-01-31
+6203.42,Men's cotton trousers/jeans,Bangladesh,6.40,1.20,3.50,11.00,1124,USD,per piece,2024-01-31
+6203.42,Men's cotton trousers/jeans,China,5.80,1.35,2.80,10.50,2876,USD,per piece,2024-01-31
+6203.42,Men's cotton trousers/jeans,Vietnam,6.20,1.10,3.20,10.80,891,USD,per piece,2024-01-31
+6204.62,Women's cotton trousers,Bangladesh,7.20,1.45,3.80,13.00,743,USD,per piece,2024-01-31
+6204.62,Women's cotton trousers,China,6.50,1.60,3.00,12.50,1987,USD,per piece,2024-01-31
+6204.62,Women's cotton trousers,Vietnam,6.90,1.30,3.50,12.00,612,USD,per piece,2024-01-31
+6110.20,Cotton jerseys/pullovers,Bangladesh,5.50,1.10,2.80,9.50,834,USD,per piece,2024-01-31
+6110.20,Cotton jerseys/pullovers,China,4.90,1.25,2.40,9.00,2143,USD,per piece,2024-01-31
+6211.42,Cotton anoraks/jackets,Bangladesh,12.50,2.80,6.00,22.00,412,USD,per piece,2024-01-31
+6211.42,Cotton anoraks/jackets,China,11.00,3.10,5.00,20.00,1034,USD,per piece,2024-01-31
+8471.30,Portable automatic data processing machines (laptops),China,420.00,85.00,210.00,780.00,3421,USD,per unit,2024-01-31
+8471.30,Portable automatic data processing machines (laptops),Taiwan,450.00,90.00,230.00,820.00,876,USD,per unit,2024-01-31
+8517.12,Smartphones (mobile phones),China,185.00,55.00,65.00,450.00,5432,USD,per unit,2024-01-31
+8517.12,Smartphones (mobile phones),Vietnam,175.00,48.00,60.00,420.00,1243,USD,per unit,2024-01-31
+9403.60,Wooden furniture (other),China,95.00,28.00,35.00,200.00,2187,USD,per unit,2024-01-31
+9403.60,Wooden furniture (other),Vietnam,88.00,25.00,30.00,185.00,743,USD,per unit,2024-01-31
+9403.60,Wooden furniture (other),Malaysia,92.00,27.00,32.00,192.00,412,USD,per unit,2024-01-31
+2709.00,Crude petroleum oil,Saudi Arabia,72.00,8.50,52.00,98.00,4821,USD,per barrel,2024-01-31
+2709.00,Crude petroleum oil,Iraq,70.50,9.00,50.00,96.00,3214,USD,per barrel,2024-01-31
+7108.12,Gold (non-monetary) unwrought,Switzerland,61500.00,1200.00,57800.00,65400.00,342,USD,per kg,2024-01-31
+7108.12,Gold (non-monetary) unwrought,United Arab Emirates,61400.00,1350.00,57600.00,65200.00,189,USD,per kg,2024-01-31
+0901.11,Coffee not roasted,Brazil,2.85,0.40,1.90,4.20,1876,USD,per kg,2024-01-31
+0901.11,Coffee not roasted,Colombia,3.20,0.45,2.10,4.80,943,USD,per kg,2024-01-31
+2004.10,Frozen potatoes (prepared),Netherlands,0.95,0.18,0.60,1.40,1123,USD,per kg,2024-01-31

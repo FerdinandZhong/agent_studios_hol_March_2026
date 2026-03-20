@@ -1,0 +1,21 @@
+card_id,account_id,customer_id,card_type,card_number_masked,status,block_reason,expiry_date,credit_limit,current_balance,available_credit,issued_date,last_used_date,notes
+CARD-000001,ACC-100001,CUST-B001,DEBIT,****4521,ACTIVE,,2028-03-31,,,, 2018-03-20,2026-03-15,Linked to primary checking
+CARD-000002,ACC-100003,CUST-B002,DEBIT,****2341,ACTIVE,,2027-07-31,,,,2015-07-10,2026-03-16,Linked to premium checking
+CARD-000003,ACC-100003,CUST-B002,CREDIT,****9902,ACTIVE,,2027-07-31,15000.00,3240.00,11760.00,2015-07-10,2026-03-14,Premium credit card. Cash-back rewards enrolled.
+CARD-000004,ACC-100006,CUST-B003,DEBIT,****8844,BLOCKED,ACCOUNT_LOCKED,2028-01-31,,,,2020-01-15,2026-03-12,Blocked automatically when account ACC-100006 was locked for fraud on 2026-03-12.
+CARD-000005,ACC-100008,CUST-B004,DEBIT,****9901,ACTIVE,,2027-05-31,,,,2012-05-08,2026-03-16,Business debit card
+CARD-000006,ACC-100008,CUST-B004,CREDIT,****5512,ACTIVE,,2027-05-31,25000.00,8900.00,16100.00,2012-05-08,2026-03-14,Business credit card. Travel rewards enrolled.
+CARD-000007,ACC-100010,CUST-B005,DEBIT,****1122,ACTIVE,,2028-02-28,,,,2017-02-28,2026-03-15,Primary debit card
+CARD-000008,ACC-100010,CUST-B005,CREDIT,****7723,ACTIVE,,2028-02-28,20000.00,1500.00,18500.00,2017-02-28,2026-03-10,Premium credit card. Low utilization.
+CARD-000009,ACC-100012,CUST-B006,DEBIT,****6677,ACTIVE,,2028-08-31,,,,2021-08-12,2026-03-15,Digital-first customer. Mainly uses contactless payments.
+CARD-000010,ACC-100013,CUST-B007,DEBIT,****9988,BLOCKED,ACCOUNT_FROZEN,2027-11-30,,,,2019-11-03,2026-03-09,Blocked automatically when account ACC-100013 was frozen for suspicious activity on 2026-03-10.
+CARD-000011,ACC-100015,CUST-B008,DEBIT,****4455,ACTIVE,,2027-09-30,,,,2016-09-15,2026-03-15,Debit card active but outbound spending limited to $500/day while account is UNDER_REVIEW.
+CARD-000012,ACC-100016,CUST-B009,DEBIT,****7766,ACTIVE,,2028-04-30,,,,2014-04-22,2026-03-16,Premium debit card
+CARD-000013,ACC-100016,CUST-B009,CREDIT,****3388,ACTIVE,,2028-04-30,25000.00,4200.00,20800.00,2014-04-22,2026-03-10,Premium credit card. Rewards program active.
+CARD-000014,ACC-100024,CUST-B015,DEBIT,****6655,BLOCKED,LOAN_DEFAULT,2027-10-31,,,,2017-10-20,2025-10-01,Blocked on 2026-02-01 when account locked due to loan default. Last used 2025-10-01.
+CARD-000015,ACC-100027,CUST-B018,CREDIT,****5566,ACTIVE,,2028-03-31,30000.00,7800.00,22200.00,2016-03-10,2026-03-14,Premium credit card. High limit. Travel insurance included.
+CARD-000016,ACC-100018,CUST-B010,DEBIT,****1133,ACTIVE,,2027-12-31,,,,2010-12-01,2026-03-16,Business debit card. High daily limit.
+CARD-000017,ACC-100018,CUST-B010,CREDIT,****4499,ACTIVE,,2027-12-31,50000.00,22000.00,28000.00,2010-12-01,2026-03-12,Business credit card. High utilization this quarter for equipment purchases.
+CARD-000018,ACC-100021,CUST-B013,DEBIT,****7788,ACTIVE,,2028-09-30,,,,2018-09-05,2026-03-14,International transactions enabled. Used frequently for Japan wire initiations.
+CARD-000019,ACC-100019,CUST-B011,DEBIT,****5544,EXPIRED,,2025-12-31,,,,2022-06-30,,Expired Dec 2025. Customer has not yet requested replacement. Caused insurance payment failure TXN-2026-000042.
+CARD-000020,ACC-100026,CUST-B017,DEBIT,****8833,ACTIVE,,2027-08-31,,,,2013-08-25,2026-03-15,Business debit card. International wire initiations enabled.
