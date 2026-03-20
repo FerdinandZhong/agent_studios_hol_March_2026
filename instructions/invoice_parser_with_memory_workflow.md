@@ -393,6 +393,10 @@ Before importing the workflow, register the LightMem MCP server that provides me
       "args": ["--refresh", "--from", "git+https://github.com/FerdinandZhong/LightMem.git@mcp-light", "lightmem-mcp"],
       "env": {
         "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "OPENAI_BASE_URL": "${OPENAI_BASE_URL}",
+        "LIGHTMEM_LLM_MODEL": "${LIGHTMEM_LLM_MODEL}",
+        "LIGHTMEM_EMBEDDING_MODEL": "${LIGHTMEM_EMBEDDING_MODEL}",
+        "LIGHTMEM_EMBEDDING_DIMS": "${LIGHTMEM_EMBEDDING_DIMS}",
         "QDRANT_URL": "${QDRANT_URL}",
         "LIGHTMEM_COLLECTION_NAME": "${LIGHTMEM_COLLECTION_NAME}"
       }
@@ -401,7 +405,21 @@ Before importing the workflow, register the LightMem MCP server that provides me
 }
 ```
 
-3. Click **Register** (use placeholder values - actual credentials are configured later)
+3. Click **Register** (use placeholder values — actual credentials are configured later)
+
+**Environment Variable Reference:**
+
+| Variable | Required | Default | Purpose |
+|----------|----------|---------|---------|
+| `OPENAI_API_KEY` | Yes | — | API key for your LLM/embedding provider |
+| `OPENAI_BASE_URL` | No | OpenAI default | Custom base URL — set this when the default OpenAI endpoint is unavailable (e.g., Azure OpenAI, a local proxy, or another OpenAI-compatible provider) |
+| `LIGHTMEM_LLM_MODEL` | No | `gpt-4o-mini` | LLM model used for memory compression and summarisation |
+| `LIGHTMEM_EMBEDDING_MODEL` | No | `text-embedding-3-small` | Embedding model used for vector storage and semantic retrieval |
+| `LIGHTMEM_EMBEDDING_DIMS` | No | `1536` | Embedding dimensions — must match the chosen embedding model |
+| `QDRANT_URL` | Yes | — | URL of your Qdrant vector database instance |
+| `LIGHTMEM_COLLECTION_NAME` | No | `lightmem_memory` | Qdrant collection name for memory storage |
+
+> **Using an alternative provider:** If your environment cannot reach the default OpenAI API, set `OPENAI_BASE_URL` to the base URL of any OpenAI-compatible endpoint (e.g., Azure OpenAI, a corporate proxy, or a self-hosted model). Adjust `LIGHTMEM_LLM_MODEL` and `LIGHTMEM_EMBEDDING_MODEL` to match the models available at that endpoint.
 
 ![Register LightMem MCP Server](images/invoice_parser_with_mem_workflow/register_lightmem_mcp_server.png)
 
@@ -498,41 +516,18 @@ This is a **conversational hierarchical workflow** with a Manager Agent that rou
 
 ### LightMem MCP Server
 
-The workflow uses the LightMem MCP server for persistent memory:
+The workflow uses the LightMem MCP server for persistent memory. See [Step 2.7](#step-27-register-lightmem-mcp-server) for the full configuration JSON and environment variable reference.
 
 ![LightMem MCP Details](images/invoice_parser_with_mem_workflow/Details_of_lightmem_mcp.png)
 
-**MCP Server Configuration:**
-```json
-{
-  "mcpServers": {
-    "lightmem": {
-      "command": "uvx",
-      "args": ["--refresh", "--from", "git+https://github.com/FerdinandZhong/LightMem.git@mcp-light", "lightmem-mcp"],
-      "env": {
-        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
-        "QDRANT_URL": "${QDRANT_URL}",
-        "LIGHTMEM_COLLECTION_NAME": "${LIGHTMEM_COLLECTION_NAME}"
-      }
-    }
-  }
-}
-```
-
 **Key Functions:**
-- `add_memory` - Store user input and assistant reply as a memory
-- `retrieve_memory` - Semantic search to find relevant memories
-- `get_timestamp` - Get current timestamp for memory metadata
+- `add_memory` — Store user input and assistant reply as a memory entry
+- `retrieve_memory` — Semantic search over stored memories
+- `get_timestamp` — Get current timestamp for memory metadata
 
 ### PaddleOCR Tool
 
-The OCR agent uses PaddleOCR hosted via CAI Model Inference:
-
-![PaddleOCR Tool Details](images/invoice_parser_with_mem_workflow/details_of_paddleOCR.png)
-
-![PaddleOCR Model Endpoint](images/invoice_parser_with_mem_workflow/details_of_model_endpoint_of_paddleocr_hosted_through_CAI_inference.png)
-
-![PaddleOCR Model from Nvidia](images/invoice_parser_with_mem_workflow/paddleOCR_model_weights_provided_by_nvidia.png)
+The OCR agent uses PaddleOCR hosted via CAI Model Inference. The endpoint URL and API key are configured in [Step 4.3](#step-43-configure-paddleocr-tool-parameters).
 
 ---
 
@@ -641,8 +636,9 @@ The agent now retrieves stored invoice data and provides an accurate answer!
 | Issue | Solution |
 |-------|----------|
 | Qdrant job fails | Check CDSW environment variables are available |
-| No memories retrieved | Verify QDRANT_URL points to correct instance |
-| LightMem MCP fails to start | Check OPENAI_API_KEY is set correctly |
+| No memories retrieved | Verify `QDRANT_URL` points to correct instance |
+| LightMem MCP fails to start | Check `OPENAI_API_KEY` is set; if the default OpenAI endpoint is blocked, also set `OPENAI_BASE_URL` to your provider's base URL |
+| Embedding errors / dimension mismatch | Ensure `LIGHTMEM_EMBEDDING_DIMS` matches the model set in `LIGHTMEM_EMBEDDING_MODEL` |
 | OCR extraction fails | Verify PaddleOCR endpoint URL and API key |
 
 ---
